@@ -1,0 +1,19 @@
+services:
+  mysql:
+    container_name: 'producerdb'
+    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_DATABASE=producerdb'
+      - 'MYSQL_PASSWORD=123'
+      - 'MYSQL_ROOT_PASSWORD=123'
+      - 'MYSQL_USER=admin'
+    ports:
+      - '3307:3306'
+
+  rabbitmq:
+    image: rabbitmq:latest
+    environment:
+      RABBITMQ_DEFAULT_USER: producerqueue
+      RABBITMQ_DEFAULT_PASS: 123
+    ports:
+      - '5672:5672'
