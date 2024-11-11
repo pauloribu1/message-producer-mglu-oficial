@@ -2,12 +2,18 @@ package com.ribu.message_producer.controller;
 
 
 import com.ribu.message_producer.dto.ScheduleMessageDTO;
+import com.ribu.message_producer.entity.Channel;
 import com.ribu.message_producer.entity.Message;
 import com.ribu.message_producer.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.ribu.message_producer.facade.MessageFacade;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/message")
@@ -22,11 +28,47 @@ public class MessageController {
 
     @PostMapping("/send")
     public ResponseEntity<?> scheduleMessage(@RequestBody ScheduleMessageDTO dto){
+        if (!isValidDateTime(dto.getDateTime())) {
+            return ResponseEntity.badRequest().body("Formato de data e hora inválido. Use o formato: yyyy-MM-dd'T'HH:mm:ss");
+        }
+
+        if (!isValidChannel(dto.getChannel().toChannel())) {
+            return ResponseEntity.badRequest().body("Canal inválido. Envie um dos seguintes: " + getValidChannels());
+        }
+
         messageService.scheduleMessage(dto);
+
 
         var response = messageFacade.messageQueue(dto);
 
         return ResponseEntity.accepted().body(response);
+    }
+
+    private boolean isValidChannel(Channel channel) {
+        if (channel == null || channel.getContent() == null) {
+            return false;
+        }
+        try {
+            Channel.Options.valueOf(channel.getContent().toUpperCase());
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    private String getValidChannels() {
+        return String.join(", ", Arrays.stream(Channel.Options.values())
+                .map(Enum::name)
+                .toArray(String[]::new));
+    }
+    private boolean isValidDateTime(String dateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        try {
+            LocalDateTime.parse(dateTime, formatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
     }
 
     @GetMapping("/check/{id}")

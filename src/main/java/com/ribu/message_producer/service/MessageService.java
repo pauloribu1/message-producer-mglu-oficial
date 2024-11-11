@@ -19,9 +19,6 @@ public class MessageService {
 
     public void scheduleMessage(ScheduleMessageDTO dto){
         messageRepository.save(dto.toMessage());
-
-        // TO DO RABBIT MQ
-
     }
 
     public Optional<Message> findById(Long id){
@@ -35,6 +32,15 @@ public class MessageService {
         if( message.isPresent()){
             message.get().setStatus(Status.Options.CANCELED.toStatus());
             messageRepository.save(message.get());
+        }
+    }
+
+    public void markAsSent(Long id){
+        Optional<Message> message = messageRepository.findById(id);
+        Message mes = message.get();
+        if (mes.getStatus().equals(Status.Options.PENDING.toStatus())) {
+            mes.setStatus(Status.Options.SUCESS.toStatus());
+            messageRepository.save(mes);
         }
     }
 
