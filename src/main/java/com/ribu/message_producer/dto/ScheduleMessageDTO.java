@@ -7,10 +7,13 @@ import com.ribu.message_producer.entity.Status;
 
 import java.time.LocalDateTime;
 
+
 public record ScheduleMessageDTO(String content,
-         LocalDateTime dateTime,
+         String dateTime,
          String destination,
          Channel.Options channel){
+
+
 
 
     public Message toMessage() {

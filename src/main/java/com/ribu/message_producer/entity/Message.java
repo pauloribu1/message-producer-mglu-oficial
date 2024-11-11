@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 @NoArgsConstructor
@@ -19,6 +20,7 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long messageId;
 
+    @DateTimeFormat
     private LocalDateTime dateTime;
 
     private String destination;
@@ -43,5 +45,8 @@ public class Message {
         this.content = content;
         this.channel = channel;
         this.status = status;
+    }
+
+    public Message(String dateTime, String destination, String content, Channel channel, Status status) {
     }
 }

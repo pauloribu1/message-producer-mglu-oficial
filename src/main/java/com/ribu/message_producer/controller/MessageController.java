@@ -4,13 +4,16 @@ package com.ribu.message_producer.controller;
 import com.ribu.message_producer.dto.ScheduleMessageDTO;
 import com.ribu.message_producer.entity.Message;
 import com.ribu.message_producer.service.MessageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.ribu.message_producer.facade.MessageFacade;
 
 @RestController
 @RequestMapping("/message")
 public class MessageController {
 
+    @Autowired private MessageFacade messageFacade;
     private MessageService messageService;
 
     public MessageController(MessageService messageService) {
@@ -21,14 +24,15 @@ public class MessageController {
     public ResponseEntity<?> scheduleMessage(@RequestBody ScheduleMessageDTO dto){
         messageService.scheduleMessage(dto);
 
-        return ResponseEntity.accepted().build();
+        var response = messageFacade.messageQueue(dto);
+
+        return ResponseEntity.accepted().body(response);
     }
 
     @GetMapping("/check/{id}")
     public ResponseEntity<Message> getMessage(@PathVariable("id") Long id) {
         System.out.println("Buscando mensagem com ID: " + id);
         var message = messageService.findById(id);
-        System.out.println("Mensagem encontrada: " + message);
 
         if (message.isPresent()) {
             Message foundMessage = message.get();
