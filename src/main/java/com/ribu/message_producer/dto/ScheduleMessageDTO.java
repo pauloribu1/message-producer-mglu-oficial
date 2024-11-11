@@ -5,10 +5,10 @@ import com.ribu.message_producer.entity.Message;
 import com.ribu.message_producer.entity.Status;
 
 
-public record ScheduleMessageDTO(String content,
-         String dateTime,
-         String destination,
-         Channel.Options channel){
+public record ScheduleMessageDTO(Long messageId, String content,
+                                 String dateTime,
+                                 String destination,
+                                 Channel.Options channel){
 
 
 
@@ -29,5 +29,17 @@ public record ScheduleMessageDTO(String content,
 
     public Channel.Options getChannel() {
         return channel;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public Long getMessageId() {
+        return messageId;
     }
 }

@@ -17,8 +17,10 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
-    public void scheduleMessage(ScheduleMessageDTO dto){
-        messageRepository.save(dto.toMessage());
+    public Long scheduleMessage(ScheduleMessageDTO dto){
+        Message message = messageRepository.save(dto.toMessage());
+        System.out.println(message.getMessageId());
+        return message.getMessageId();
     }
 
     public Optional<Message> findById(Long id){

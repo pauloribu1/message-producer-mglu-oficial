@@ -36,10 +36,18 @@ public class MessageController {
             return ResponseEntity.badRequest().body("Canal inválido. Envie um dos seguintes: " + getValidChannels());
         }
 
-        messageService.scheduleMessage(dto);
 
 
-        var response = messageFacade.messageQueue(dto);
+        var messageId = messageService.scheduleMessage(dto);
+        ScheduleMessageDTO newDto = new ScheduleMessageDTO(
+                messageId,
+                dto.getContent(),
+                dto.getDateTime(),
+                dto.getDestination(),
+                dto.getChannel()
+        );
+
+        var response = messageFacade.messageQueue(newDto);
 
         return ResponseEntity.accepted().body(response);
     }

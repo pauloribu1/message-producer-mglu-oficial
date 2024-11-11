@@ -39,14 +39,11 @@ public class Message {
         this.content = content;
     }
 
-    public Message(LocalDateTime dateTime, String destination, String content, Channel channel, Status status) {
-        this.dateTime = dateTime;
+    public Message(String dateTime, String destination, String content, Channel channel, Status status) {
+        this.dateTime = LocalDateTime.parse(dateTime);
         this.destination = destination;
         this.content = content;
         this.channel = channel;
         this.status = status;
-    }
-
-    public Message(String dateTime, String destination, String content, Channel channel, Status status) {
     }
 }
