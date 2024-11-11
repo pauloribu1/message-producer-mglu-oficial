@@ -20,16 +20,16 @@ public class MessageRequestConsumer {
             String payload = message.getPayload();
             ScheduleMessageDTO dto = objectMapper.readValue(payload, ScheduleMessageDTO.class);
 
-            System.out.println("Chegou um agendamento! " + dto);
+            System.out.println("----------NEW MESSAGE INCOMING: ------------" + dto);
 
             Long messageId = dto.getMessageId();
             if (messageId != null) {
                 messageService.markAsSent(messageId);
             } else {
-                System.out.println("messageId não encontrado na mensagem recebida.");
+                System.out.println("---------MESSAGE ID NOT found!---------");
             }
         } catch (Exception e) {
-            System.err.println("Erro ao processar a mensagem: " + e.getMessage());
+            System.err.println(" --------- Error consuming message: " + e.getMessage());
         }
 
     }

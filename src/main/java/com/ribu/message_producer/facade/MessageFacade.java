@@ -15,9 +15,9 @@ public class MessageFacade {
         try {
             producer.sendToRabbit(dto);
         } catch (JsonProcessingException e) {
-            return "Ocorreu um erro ao solicitar agendamento" + e.getMessage();
+            return "ERROR! While processing the message Queue" + e.getMessage();
         }
-        return "Agendamento realizado com sucesso. Muito obrigado.";
+        return "The communication is PENDING. We will send the message in the time requested.";
 
     }
 }

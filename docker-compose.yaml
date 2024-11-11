@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   mysql:
     container_name: 'producerdb'
@@ -19,3 +21,19 @@ services:
     ports:
       - '5672:5672'
       - '15672:15672'
+
+#/#*
+# message-producer:
+#   build: .
+#   container_name: message_producer
+##   ports:
+#     - '8080:8080'
+#   environment:
+#     SPRING_DATASOURCE_URL: jdbc:mysql://producerdb:3306/producerdb
+#     SPRING_DATASOURCE_USERNAME: admin
+#     SPRING_DATASOURCE_PASSWORD: 123
+#     SPRING_RABBITMQ_HOST: rabbitmq
+#    depends_on:
+#      - mysql
+#      - rabbitmq
+#

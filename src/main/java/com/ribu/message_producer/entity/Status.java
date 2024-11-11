@@ -22,9 +22,11 @@ public class Status {
 
     public enum Options{
         PENDING(1L,"pending"),
+
         SUCESS(2L, "sucess"),
         ERROR(3L, "error"),
-        CANCELED(4L, "canceled");
+        CANCELED(4L, "canceled"),
+        READY(5L, "ready");
 
         private Long id;
         private String content;
