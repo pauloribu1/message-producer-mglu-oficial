@@ -8,6 +8,7 @@ Para buildar o projeto, é necessário abrir o código em um editor de texto, e 
 Após esse processo, podemos verificar que a conexão ao banco de dados já deve estar funcional e acessar o RabbitMQ Managament para criar as Exchanges e Queues ( message-exchange, message-queue, message-rout-key) necessárias para a comunicação entre as partes Produtora e Consumidora do nosso projeto.
 
 Para acessar o RabbitMQ, http://localhost:15672/#/
+É necessário fazer a criação dos Exchanges e dos Queues dentro do rabbitmq respeitando o código nativo. O rabbitMQ exige a configuração no administrador para funcionar.
 Credenciais podem ser encontradas em application.properties
 
 Podemos compilar e rodar o Projeto Java.
@@ -20,5 +21,3 @@ Foram criadas também arquivo de configuração para exceções globais, e um ar
 Falando em Enum, a idéia de criar tabelas específicas para o enum se deve a possibilidade de um aumento do fluxo, mudança de escopo, ou algum avanço na complexidade do sistema, pode significar o aumento de estados durante o processo, assim como os canais utilizados. Ou seja, esse dado pode ser algo que virá a escalar e ao normalizar a base, andamos um passo em frente para a indexação de pontos específicos das nossas tabelas, como esses.
 
 Temos o Producer e o Consumer com algumas funções específicas mas basicamente, é enviar uma mensagem a partir de uma regra de negócio e consumi-la a partir de uma regra de negócio da mesma forma. No caso, muito relacionado ao STATUS das mensagens que foram agendadas visto que dependem disso para efetuar a comunicação propriamente dita pelo canal.
-
-Escolhi o banco de dados MySQL por conta de um erro que estava enfrentando ao subir a imagem do postgres no docker, acredito que seja um conflito com alguma configuração antiga do meu sistema, ou algum outro projeto que participei. De toda forma, optei por usar o MySQL para fazer melhor uso do meu tempo produzindo.
