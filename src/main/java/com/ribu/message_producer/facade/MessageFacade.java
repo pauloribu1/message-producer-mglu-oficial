@@ -17,7 +17,7 @@ public class MessageFacade {
         } catch (JsonProcessingException e) {
             return "ERROR! While processing the message Queue" + e.getMessage();
         }
-        return "The communication is PENDING. We will send the message in the time requested.";
+        return "The communication to "+ dto.getDestination() +" was booked. We will send the message in the time requested.";
 
     }
 }

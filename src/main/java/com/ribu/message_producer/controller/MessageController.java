@@ -33,7 +33,7 @@ public class MessageController {
         }
 
         if (!isValidChannel(dto.getChannel().toChannel())) {
-            return ResponseEntity.badRequest().body("Canal inválido. Envie um dos seguintes: " + getValidChannels());
+            return ResponseEntity.badRequest().body("Canal inválido. Envie : " + getValidChannels());
         }
 
 
