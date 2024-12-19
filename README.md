@@ -1,23 +1,41 @@
-# message-producer-mglu-oficial
-
-Projeto de uma Plataforma de Comunicação em Java 21 SE que possibilita o agendamento de um envio em 4 canais distintos (SMS,PUSH,WHATSAPP E EMAIL) usando as tecnologias Spring Boot 6.1.5, RabbitMQ, MySQL, JUnit e Docker.
+#Message Producer
+A Communication Platform Project built in Java 21 SE, enabling the scheduling and delivery of messages through four distinct channels (SMS, Push Notifications, WhatsApp, and Email) using Spring Boot 6.1.5, RabbitMQ, MySQL, JUnit, and Docker.
 
 BUILD
+To build the project:
 
-Para buildar o projeto, é necessário abrir o código em um editor de texto, e rodar o arquivo docker-compose.yaml na pasta raíz. Esse arquivo irá gerar as instâncias de banco de dados assim como a do rabbitMQ dentro de containers do Docker.
-Após esse processo, podemos verificar que a conexão ao banco de dados já deve estar funcional e acessar o RabbitMQ Managament para criar as Exchanges e Queues ( message-exchange, message-queue, message-rout-key) necessárias para a comunicação entre as partes Produtora e Consumidora do nosso projeto.
+Open the source code in a text editor.
+Run the docker-compose.yaml file located in the root directory.
+This file will create Docker containers for the database and RabbitMQ instances.
+Verify the database connection is functional and access the RabbitMQ Management Console to configure the Exchanges and Queues needed for producer-consumer communication.
+RabbitMQ Setup
+Access RabbitMQ at: http://localhost:15672/#/
+Create the following configurations in RabbitMQ:
+Exchange: message-exchange
+Queue: message-queue
+Routing Key: message-route-key
+RabbitMQ requires administrator configuration to function correctly.
+Credentials can be found in the application.properties file.
 
-Para acessar o RabbitMQ, http://localhost:15672/#/
-É necessário fazer a criação dos Exchanges e dos Queues dentro do rabbitmq respeitando o código nativo. O rabbitMQ exige a configuração no administrador para funcionar.
-Credenciais podem ser encontradas em application.properties
+After this, compile and run the Java project.
 
-Podemos compilar e rodar o Projeto Java.
+PROJECT
+This project implements a communication platform using RabbitMQ as the messaging service. It includes a microservice responsible for both the producer and consumer functionalities, as well as a connection to a relational database.
 
-PROJETO
-Ao abordar o desafio técnico proposto para criarmos uma plataforma de comunicação que utilize do serviço RabbitMq como Mensageria, aonde exista um microsserviço responsável tanto pelo consumidor como pelo produtor e que faça conexão com banco de dados relacional, precisamos entender as decisões que irão ser feitas. 
-(OBS: Idealmente, em um desenvolvimento maior é de extrema vantagem desvincularmos ambos da mesma instância Docker, assim como criar uma modelagem de banco de dados que possibilita que cada um se relacionasse com um banco de dados exclusivos. Isso melhora a manutenção na hora de instabilidades, melhora o gerenciamento de desempenho.). Dessa forma, essa API foi criada no padrão Arquitetura de três camadas, respeitando a hierarquia Controller-Service-Repository.
+Note
+For larger-scale development, it is recommended to decouple the producer and consumer from the same Docker instance. Additionally, designing separate databases for each service improves maintainability during outages and enhances performance management.
 
-Foram criadas também arquivo de configuração para exceções globais, e um arquivo para inicialização do banco afim de gerar os dados necessários para as tabelas de Enum.
-Falando em Enum, a idéia de criar tabelas específicas para o enum se deve a possibilidade de um aumento do fluxo, mudança de escopo, ou algum avanço na complexidade do sistema, pode significar o aumento de estados durante o processo, assim como os canais utilizados. Ou seja, esse dado pode ser algo que virá a escalar e ao normalizar a base, andamos um passo em frente para a indexação de pontos específicos das nossas tabelas, como esses.
+The API was built following the Three-Layer Architecture pattern, adhering to the Controller-Service-Repository hierarchy.
 
-Temos o Producer e o Consumer com algumas funções específicas mas basicamente, é enviar uma mensagem a partir de uma regra de negócio e consumi-la a partir de uma regra de negócio da mesma forma. No caso, muito relacionado ao STATUS das mensagens que foram agendadas visto que dependem disso para efetuar a comunicação propriamente dita pelo canal.
+Additional Features
+Configuration file for global exceptions.
+Database initialization file to ensure required enum data is preloaded.
+ENUMS AND DATABASE DESIGN
+A separate table was created for enums to ensure scalability. This approach supports the addition of new states and communication channels as needed, while improving indexing and query performance for specific database fields.
+
+PRODUCER AND CONSUMER
+The Producer and Consumer have specific functions:
+
+The Producer sends messages based on business rules.
+The Consumer processes these messages according to the same rules.
+The status of scheduled messages is crucial in determining how and when they are delivered through the appropriate channels.
